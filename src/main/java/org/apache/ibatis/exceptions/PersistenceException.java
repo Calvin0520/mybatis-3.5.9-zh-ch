@@ -16,6 +16,8 @@
 package org.apache.ibatis.exceptions;
 
 /**
+ * MyBatis(原名Ibatis) 所有异常的父类，例外情况 {@link org.apache.ibatis.jdbc.RuntimeSqlException}.<br/>
+ * 因{@link IbatisException}已经废弃 后续版本可以直接继承{@link RuntimeException}
  * @author Clinton Begin
  */
 @SuppressWarnings("deprecation")

@@ -16,6 +16,9 @@
 package org.apache.ibatis.exceptions;
 
 /**
+ * MyBatis(原名Ibatis) 所有异常的父类，例外情况 {@link org.apache.ibatis.jdbc.RuntimeSqlException}
+ * 唯一派生子类 {@link PersistenceException}
+ * @see PersistenceException
  * @author Clinton Begin
  */
 @Deprecated

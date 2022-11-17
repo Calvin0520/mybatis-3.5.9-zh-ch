@@ -15,7 +15,14 @@
  */
 package org.apache.ibatis.exceptions;
 
+import org.apache.ibatis.session.defaults.DefaultSqlSession;
+
 /**
+ * 多个结果集异常，发生于{@link DefaultSqlSession#selectOne(String, Object)}。
+ * 当调用{@link DefaultSqlSession#selectOne(String, Object)}方法时，查询到的行数不为null并且行数大于1时就会跑出次异常。
+ *
+ * @see DefaultSqlSession#selectOne(String, Object)
+ * @code
  * @author Clinton Begin
  */
 public class TooManyResultsException extends PersistenceException {
