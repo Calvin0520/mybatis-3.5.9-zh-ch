@@ -31,13 +31,26 @@ import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 
+/**
+ * 参数名称解析器
+ */
 public class ParamNameResolver {
 
+  /**
+   * 通用名称前缀
+   */
   public static final String GENERIC_NAME_PREFIX = "param";
 
+  /**
+   * 使用实际参数名称
+   */
   private final boolean useActualParamName;
 
   /**
+   * 有序映射 存储参数名称 不可修改
+   * key是索引，value是参数的名称。
+   * 如果指定了名称，则从@Param中获得。如果未指定@Param，则使用参数索引。
+   * 注意，当方法具有特殊参数(如RowBounds或ResultHandler)时，该索引可能与实际索引不同。
    * <p>
    * The key is the index and the value is the name of the parameter.<br />
    * The name is obtained from {@link Param} if specified. When {@link Param} is not specified,
@@ -52,22 +65,30 @@ public class ParamNameResolver {
    */
   private final SortedMap<Integer, String> names;
 
+  /**
+   * 使用注解参数
+   */
   private boolean hasParamAnnotation;
 
   public ParamNameResolver(Configuration config, Method method) {
     this.useActualParamName = config.isUseActualParamName();
+    // 参数类型数组
     final Class<?>[] paramTypes = method.getParameterTypes();
+    // 参数注解二维数组
     final Annotation[][] paramAnnotations = method.getParameterAnnotations();
     final SortedMap<Integer, String> map = new TreeMap<>();
     int paramCount = paramAnnotations.length;
     // get names from @Param annotations
     for (int paramIndex = 0; paramIndex < paramCount; paramIndex++) {
+      // 判断参数类型是否是RowBounds和类型
       if (isSpecialParameter(paramTypes[paramIndex])) {
+        // 忽略特殊类型
         // skip special parameters
         continue;
       }
       String name = null;
       for (Annotation annotation : paramAnnotations[paramIndex]) {
+        // 处理@Param注解
         if (annotation instanceof Param) {
           hasParamAnnotation = true;
           name = ((Param) annotation).value();
@@ -76,29 +97,44 @@ public class ParamNameResolver {
       }
       if (name == null) {
         // @Param was not specified.
+        // 使用实际参数类型
         if (useActualParamName) {
           name = getActualParamName(method, paramIndex);
         }
         if (name == null) {
           // use the parameter index as the name ("0", "1", ...)
           // gcode issue #71
+          // 使用参数索引作为名称("0"，"1"，…)
           name = String.valueOf(map.size());
         }
       }
       map.put(paramIndex, name);
     }
+    // 包装map为不可修改
     names = Collections.unmodifiableSortedMap(map);
   }
 
+  /**
+   * 获得方法的实际参数名称
+   * @param method 目标方法
+   * @param paramIndex 参数索引
+   * @return
+   */
   private String getActualParamName(Method method, int paramIndex) {
     return ParamNameUtil.getParamNames(method).get(paramIndex);
   }
 
+  /**
+   * 判断参数类型是否是RowBounds和类型 特殊类型判断
+   * @param clazz 要判断的类
+   * @return 判断结果
+   */
   private static boolean isSpecialParameter(Class<?> clazz) {
     return RowBounds.class.isAssignableFrom(clazz) || ResultHandler.class.isAssignableFrom(clazz);
   }
 
   /**
+   * 返回SQL提供程序引用的参数名称
    * Returns parameter names referenced by SQL providers.
    *
    * @return the names
@@ -108,6 +144,7 @@ public class ParamNameResolver {
   }
 
   /**
+   * 返回一个没有名称的非特殊参数。使用命名规则命名多个参数。除了默认名称之外，此方法还添加了泛型名称（参数1、参数2、…）。
    * <p>
    * A single non-special parameter is returned without a name.
    * Multiple parameters are named using the naming rule.
@@ -115,7 +152,7 @@ public class ParamNameResolver {
    * ...).
    * </p>
    *
-   * @param args
+   * @param args 参数集合
    *          the args
    * @return the named params
    */
@@ -144,6 +181,7 @@ public class ParamNameResolver {
   }
 
   /**
+   * 如果对象是集合或数组，则包装到ParamMap方法。
    * Wrap to a {@link ParamMap} if object is {@link Collection} or array.
    *
    * @param object a parameter object

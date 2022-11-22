@@ -21,6 +21,7 @@ import java.lang.reflect.Method;
 import org.apache.ibatis.reflection.Reflector;
 
 /**
+ * 负责对象其他方法操作
  * @author Clinton Begin
  */
 public class MethodInvoker implements Invoker {
@@ -28,16 +29,29 @@ public class MethodInvoker implements Invoker {
   private final Class<?> type;
   private final Method method;
 
+  /**
+   * 构造方法
+   * @param method 方法
+   */
   public MethodInvoker(Method method) {
     this.method = method;
-
     if (method.getParameterTypes().length == 1) {
+      // 如果一个方法有且只有一个输入参数，则 type为输入参数的类型；
       type = method.getParameterTypes()[0];
     } else {
+      // 否则，type为方法返回值的类型。
       type = method.getReturnType();
     }
   }
 
+  /**
+   * 代理方法
+   * @param target 被代理的目标对象
+   * @param args 方法的参数
+   * @return 方法的执行结果
+   * @throws IllegalAccessException
+   * @throws InvocationTargetException
+   */
   @Override
   public Object invoke(Object target, Object[] args) throws IllegalAccessException, InvocationTargetException {
     try {

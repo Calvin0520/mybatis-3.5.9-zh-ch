@@ -20,14 +20,35 @@ import java.lang.reflect.Method;
 
 import org.apache.ibatis.reflection.ReflectionException;
 
+/**
+ * 模棱两可的方法操作
+ */
 public class AmbiguousMethodInvoker extends MethodInvoker {
+
+  /**
+   * 异常消息
+   */
   private final String exceptionMessage;
 
+  /**
+   * 构造方法
+   * @param method 被代理的方法
+   * @param exceptionMessage 异常消息
+   */
   public AmbiguousMethodInvoker(Method method, String exceptionMessage) {
     super(method);
     this.exceptionMessage = exceptionMessage;
   }
 
+  /**
+   * 代理方法
+   * @param target 被代理的目标对象
+   * @param args 方法的参数
+   * @return 直接抛出 ReflectionException
+   * @throws ReflectionException 总是抛出反射异常
+   * @throws IllegalAccessException
+   * @throws InvocationTargetException
+   */
   @Override
   public Object invoke(Object target, Object[] args) throws IllegalAccessException, InvocationTargetException {
     throw new ReflectionException(exceptionMessage);

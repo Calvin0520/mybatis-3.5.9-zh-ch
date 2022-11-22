@@ -14,6 +14,7 @@
  *    limitations under the License.
  */
 /**
+ * 执行器子包 闲置？
  * Unused.
  */
 package org.apache.ibatis.reflection.invoker;

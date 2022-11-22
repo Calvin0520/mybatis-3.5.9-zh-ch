@@ -18,6 +18,8 @@ package org.apache.ibatis.reflection;
 import org.apache.ibatis.io.Resources;
 
 /**
+ * jdk 工具
+ * @deprecated 从3.5.0开始，，将来会删除这个类（下一个主要版本）。
  * To check the existence of version dependent classes.
  */
 public class Jdk {

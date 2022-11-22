@@ -19,22 +19,35 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.UndeclaredThrowableException;
 
 /**
+ * 异常拆包工具
  * @author Clinton Begin
  */
 public class ExceptionUtil {
 
+  /**
+   * 无参构造方法
+   */
   private ExceptionUtil() {
     // Prevent Instantiation
   }
 
+  /**
+   * 拆解InvocationTargetException和UndeclaredThrowableException异常的包装，从而得到被包装的真正异常
+   * @param wrapped 包装后的异常
+   * @return 拆解出的被包装异常
+   */
   public static Throwable unwrapThrowable(Throwable wrapped) {
+    // 默认返回值，需要拆解的异常
     Throwable unwrapped = wrapped;
     while (true) {
       if (unwrapped instanceof InvocationTargetException) {
+        // 拆包获取内部异常
         unwrapped = ((InvocationTargetException) unwrapped).getTargetException();
       } else if (unwrapped instanceof UndeclaredThrowableException) {
+        // 拆包获取内部异常
         unwrapped = ((UndeclaredThrowableException) unwrapped).getUndeclaredThrowable();
       } else {
+        // 该异常无需拆包
         return unwrapped;
       }
     }

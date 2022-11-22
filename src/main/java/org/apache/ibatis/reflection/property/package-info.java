@@ -14,6 +14,7 @@
  *    limitations under the License.
  */
 /**
+ * 属性子包
  * Tools for getting/setting properties.
  */
 package org.apache.ibatis.reflection.property;

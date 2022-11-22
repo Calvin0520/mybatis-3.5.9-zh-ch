@@ -14,6 +14,7 @@
  *    limitations under the License.
  */
 /**
+ * 对象包装器子包
  * Object wrappers.
  */
 package org.apache.ibatis.reflection.wrapper;

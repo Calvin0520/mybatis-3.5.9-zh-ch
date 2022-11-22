@@ -43,6 +43,8 @@ import org.apache.ibatis.reflection.property.PropertyNamer;
 import org.apache.ibatis.util.MapUtil;
 
 /**
+ * 反射类 反射包的核心
+ * 缓存类的定义信息，可以在属性名称和getter或setter方法之间映射
  * This class represents a cached set of class definition information that
  * allows for easy mapping between property names and getter/setter methods.
  *
@@ -50,18 +52,46 @@ import org.apache.ibatis.util.MapUtil;
  */
 public class Reflector {
 
+  /**
+   * 要被反射的类的类型
+   */
   private final Class<?> type;
+  /**
+   * 可读属性列表，既有getter方法的属性（boolean类型的属性可以是is方法）
+   */
   private final String[] readablePropertyNames;
+  /**
+   *  可写属性列表，既有getter方法的属性
+   */
   private final String[] writablePropertyNames;
+  /**
+   * set方法映射表。键为属性名，值为对应的方法。
+   */
   private final Map<String, Invoker> setMethods = new HashMap<>();
+  /**
+   * get方法映射表。键为属性名，值为对应的方法。
+   */
   private final Map<String, Invoker> getMethods = new HashMap<>();
+  /**
+   * set方法类型映射表。键为属性名，值为对应方法的第一个参数类型。
+   */
   private final Map<String, Class<?>> setTypes = new HashMap<>();
+  /**
+   * get方法类型映射表。键为属性名，值为对应方法的返回值类型。
+   */
   private final Map<String, Class<?>> getTypes = new HashMap<>();
+  /**
+   * 默认构造函数
+   */
   private Constructor<?> defaultConstructor;
 
+  /**
+   * 属性无关大小写映射表。实际键为属性名全大写，值为属性名。
+   */
   private Map<String, String> caseInsensitivePropertyMap = new HashMap<>();
 
   public Reflector(Class<?> clazz) {
+    // 类的类型
     type = clazz;
     addDefaultConstructor(clazz);
     Method[] classMethods = getClassMethods(clazz);
@@ -78,8 +108,14 @@ public class Reflector {
     }
   }
 
+  /**
+   * 设置默认构造方法
+   * @param clazz 要代理类的类型
+   */
   private void addDefaultConstructor(Class<?> clazz) {
+    // 返回类的所有构造函数
     Constructor<?>[] constructors = clazz.getDeclaredConstructors();
+    // 查找无参构造函数，如果存在赋值给this.defaultConstructor
     Arrays.stream(constructors).filter(constructor -> constructor.getParameterTypes().length == 0)
       .findAny().ifPresent(constructor -> this.defaultConstructor = constructor);
   }
@@ -264,6 +300,7 @@ public class Reflector {
   }
 
   /**
+   * 返回此类或者父类的所有方法
    * This method returns an array containing all methods
    * declared in this class and any superclass.
    * We use this method, instead of the simpler <code>Class.getMethods()</code>,
@@ -273,18 +310,21 @@ public class Reflector {
    * @return An array containing all methods in this class
    */
   private Method[] getClassMethods(Class<?> clazz) {
+    // 所有方法集合 key 返回值类型#方法类型:参数类型
     Map<String, Method> uniqueMethods = new HashMap<>();
     Class<?> currentClass = clazz;
     while (currentClass != null && currentClass != Object.class) {
+      //添加当前类的方法
       addUniqueMethods(uniqueMethods, currentClass.getDeclaredMethods());
 
       // we also need to look for interface methods -
       // because the class may be abstract
       Class<?>[] interfaces = currentClass.getInterfaces();
       for (Class<?> anInterface : interfaces) {
+        // 添加接口中的方法
         addUniqueMethods(uniqueMethods, anInterface.getMethods());
       }
-
+      //当前类的父类 赋值给当前类 用于递归当前类的所有方法
       currentClass = currentClass.getSuperclass();
     }
 
@@ -293,13 +333,20 @@ public class Reflector {
     return methods.toArray(new Method[0]);
   }
 
+  /**
+   * 添加唯一方法
+   * @param uniqueMethods 目标对象方法集合
+   * @param methods 要添加的方法集合
+   */
   private void addUniqueMethods(Map<String, Method> uniqueMethods, Method[] methods) {
     for (Method currentMethod : methods) {
+      // 非桥接方法
       if (!currentMethod.isBridge()) {
         String signature = getSignature(currentMethod);
         // check to see if the method is already known
         // if it is known, then an extended class must have
         // overridden a method
+        // 检查方法是否存在，如果存在则子类必须重写方法。
         if (!uniqueMethods.containsKey(signature)) {
           uniqueMethods.put(signature, currentMethod);
         }
@@ -307,6 +354,11 @@ public class Reflector {
     }
   }
 
+  /**
+   * 获取方法签名
+   * @param method 方法
+   * @return 方法签名 返回值类型#方法类型:参数类型,参数类型
+   */
   private String getSignature(Method method) {
     StringBuilder sb = new StringBuilder();
     Class<?> returnType = method.getReturnType();
@@ -322,6 +374,7 @@ public class Reflector {
   }
 
   /**
+   * 检查是否可以控制成员可访问性。
    * Checks whether can control member accessible.
    *
    * @return If can control member accessible, it return {@literal true}
@@ -340,6 +393,7 @@ public class Reflector {
   }
 
   /**
+   * 获取所代理类的原类型
    * Gets the name of the class the instance provides information for.
    *
    * @return The class name
@@ -348,6 +402,10 @@ public class Reflector {
     return type;
   }
 
+  /**
+   * 获取默认构造方法
+   * @return
+   */
   public Constructor<?> getDefaultConstructor() {
     if (defaultConstructor != null) {
       return defaultConstructor;
@@ -356,10 +414,19 @@ public class Reflector {
     }
   }
 
+  /**
+   * 判断是否有默认构造方法
+   * @return
+   */
   public boolean hasDefaultConstructor() {
     return defaultConstructor != null;
   }
 
+  /**
+   * 获取set方法
+   * @param propertyName 属性名称
+   * @return
+   */
   public Invoker getSetInvoker(String propertyName) {
     Invoker method = setMethods.get(propertyName);
     if (method == null) {
@@ -368,6 +435,11 @@ public class Reflector {
     return method;
   }
 
+  /**
+   * 获取get方法
+   * @param propertyName 属性名称
+   * @return
+   */
   public Invoker getGetInvoker(String propertyName) {
     Invoker method = getMethods.get(propertyName);
     if (method == null) {
@@ -377,6 +449,7 @@ public class Reflector {
   }
 
   /**
+   * 获取set方法参数类型
    * Gets the type for a property setter.
    *
    * @param propertyName - the name of the property
@@ -391,6 +464,7 @@ public class Reflector {
   }
 
   /**
+   * 获取get方法返回值类型
    * Gets the type for a property getter.
    *
    * @param propertyName - the name of the property
@@ -405,6 +479,7 @@ public class Reflector {
   }
 
   /**
+   * 获取可读的属性名称列表
    * Gets an array of the readable properties for an object.
    *
    * @return The array
@@ -414,6 +489,7 @@ public class Reflector {
   }
 
   /**
+   * 获取可写的属性名称列表
    * Gets an array of the writable properties for an object.
    *
    * @return The array
@@ -423,6 +499,7 @@ public class Reflector {
   }
 
   /**
+   * 检查属性是否有set方法
    * Check to see if a class has a writable property by name.
    *
    * @param propertyName - the name of the property to check
@@ -433,6 +510,7 @@ public class Reflector {
   }
 
   /**
+   * 检查属性是否有get方法
    * Check to see if a class has a readable property by name.
    *
    * @param propertyName - the name of the property to check
@@ -442,6 +520,11 @@ public class Reflector {
     return getMethods.containsKey(propertyName);
   }
 
+  /**
+   * 获取大小写敏感的属性名称
+   * @param name 属性名称（大小写不敏感）
+   * @return
+   */
   public String findPropertyName(String name) {
     return caseInsensitivePropertyMap.get(name.toUpperCase(Locale.ENGLISH));
   }
