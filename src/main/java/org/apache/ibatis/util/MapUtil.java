@@ -20,8 +20,12 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.Function;
 
+/**
+ * map工具类
+ */
 public class MapUtil {
   /**
+   * 如果key不存在就设置并返回，如果key存在就返回值
    * A temporary workaround for Java 8 specific performance issue JDK-8161372 .<br>
    * This class should be removed once we drop Java 8 support.
    *
@@ -36,6 +40,7 @@ public class MapUtil {
   }
 
   /**
+   * 构造一个不可辨的Map
    * Map.entry(key, value) alternative for Java 8.
    */
   public static <K, V> Entry<K, V> entry(K key, V value) {
