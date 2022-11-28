@@ -70,6 +70,11 @@ public class ParamNameResolver {
    */
   private boolean hasParamAnnotation;
 
+  /**
+   * 构造方法
+   * @param config 配置信息
+   * @param method 要被分析的方法
+   */
   public ParamNameResolver(Configuration config, Method method) {
     this.useActualParamName = config.isUseActualParamName();
     // 参数类型数组
