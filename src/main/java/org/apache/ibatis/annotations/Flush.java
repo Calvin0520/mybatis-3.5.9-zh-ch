@@ -22,6 +22,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * 通过映射器接口调用刷新语句的制作者注释。
+ * 刷新数据库 调用此方法才会真正更新
  * The maker annotation that invoke a flush statements via Mapper interface.
  *
  * <p>

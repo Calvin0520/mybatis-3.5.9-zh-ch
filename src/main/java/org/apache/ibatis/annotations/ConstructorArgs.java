@@ -22,6 +22,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * 对构造函数的映射定义进行分组的批注。
  * The annotation that be grouping mapping definitions for constructor.
  *
  * <p>
@@ -45,7 +46,9 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface ConstructorArgs {
+
   /**
+   * 返回构造函数的映射定义。
    * Returns mapping definitions for constructor.
    *
    * @return mapping definitions

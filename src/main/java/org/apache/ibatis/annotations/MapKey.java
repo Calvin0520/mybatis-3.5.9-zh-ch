@@ -22,6 +22,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * 使用属性名称作为map的key 所有列作为value
  * The annotation that specify the property name(or column name) for a key value of {@link java.util.Map}.
  *
  * <p>
@@ -42,6 +43,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface MapKey {
   /**
+   * Map 键的列名
    * Returns the property name(or column name) for a key value of {@link java.util.Map}.
    *
    * @return the property name(or column name)

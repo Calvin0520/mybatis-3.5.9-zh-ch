@@ -23,6 +23,7 @@ import java.lang.annotation.Target;
 import org.apache.ibatis.mapping.FetchType;
 
 /**
+ * 一对一关联查询注解
  * The annotation that specify the nested statement for retrieving single object.
  *
  * @see Result

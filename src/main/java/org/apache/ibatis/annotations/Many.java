@@ -23,6 +23,7 @@ import java.lang.annotation.Target;
 import org.apache.ibatis.mapping.FetchType;
 
 /**
+ * 指定用于检索集合的嵌套语句的批注。
  * The annotation that specify the nested statement for retrieving collections.
  *
  * @see Result
@@ -34,6 +35,7 @@ import org.apache.ibatis.mapping.FetchType;
 @Target({})
 public @interface Many {
   /**
+   * 列前缀
    * Returns the columnPrefix.
    *
    * @return the columnPrefix.
@@ -42,6 +44,7 @@ public @interface Many {
   String columnPrefix() default "";
 
   /**
+   * 映射值id
    * Returns the result map id used to map collection.
    *
    * @return the result map id
@@ -50,6 +53,7 @@ public @interface Many {
   String resultMap() default "";
 
   /**
+   * 查询语句id
    * Returns the statement id that retrieves collection.
    *
    * @return the statement id
@@ -57,6 +61,7 @@ public @interface Many {
   String select() default "";
 
   /**
+   * 查询策略
    * Returns the fetch strategy for nested statement.
    *
    * @return the fetch strategy

@@ -26,6 +26,7 @@ import org.apache.ibatis.cache.decorators.LruCache;
 import org.apache.ibatis.cache.impl.PerpetualCache;
 
 /**
+ * 指定在命名空间（例如映射器接口）上使用缓存的注释。
  * The annotation that specify to use cache on namespace(e.g. mapper interface).
  *
  * <p>
@@ -51,6 +52,7 @@ import org.apache.ibatis.cache.impl.PerpetualCache;
 public @interface CacheNamespace {
 
   /**
+   * 使用的缓存接口类型
    * Returns the cache implementation type to use.
    *
    * @return the cache implementation type
@@ -58,6 +60,7 @@ public @interface CacheNamespace {
   Class<? extends Cache> implementation() default PerpetualCache.class;
 
   /**
+   * 缓存淘汰实现类型
    * Returns the cache evicting implementation type to use.
    *
    * @return the cache evicting implementation type
@@ -65,6 +68,7 @@ public @interface CacheNamespace {
   Class<? extends Cache> eviction() default LruCache.class;
 
   /**
+   * 刷新间隔
    * Returns the flush interval.
    *
    * @return the flush interval
@@ -72,6 +76,7 @@ public @interface CacheNamespace {
   long flushInterval() default 0;
 
   /**
+   * 缓存大小
    * Return the cache size.
    *
    * @return the cache size
@@ -79,6 +84,7 @@ public @interface CacheNamespace {
   int size() default 1024;
 
   /**
+   * 是否使用读/写缓存
    * Returns whether use read/write cache.
    *
    * @return {@code true} if use read/write cache; {@code false} if otherwise
@@ -86,6 +92,7 @@ public @interface CacheNamespace {
   boolean readWrite() default true;
 
   /**
+   * 是否阻止缓存
    * Returns whether block the cache at request time or not.
    *
    * @return {@code true} if block the cache; {@code false} if otherwise
@@ -93,6 +100,7 @@ public @interface CacheNamespace {
   boolean blocking() default false;
 
   /**
+   * 实现对象的属性值。
    * Returns property values for a implementation object.
    *
    * @return property values

@@ -22,6 +22,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * 指定要使用的结果映射名称的注解。
  * The annotation that specify result map names to use.
  *
  * <p>
@@ -57,7 +58,9 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface ResultMap {
+
   /**
+   * 返回要使用的结果映射名称。
    * Returns result map names to use.
    *
    * @return result map names

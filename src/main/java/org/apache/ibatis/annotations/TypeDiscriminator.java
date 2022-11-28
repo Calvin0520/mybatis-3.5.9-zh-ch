@@ -26,6 +26,7 @@ import org.apache.ibatis.type.TypeHandler;
 import org.apache.ibatis.type.UnknownTypeHandler;
 
 /**
+ * 对条件映射定义进行分组的批注。
  * The annotation that be grouping conditional mapping definitions.
  *
  * <p>
@@ -55,6 +56,7 @@ import org.apache.ibatis.type.UnknownTypeHandler;
 public @interface TypeDiscriminator {
 
   /**
+   * 数据库列名
    * Returns the column name(column label) that hold conditional value.
    *
    * @return the column name(column label)
@@ -62,6 +64,7 @@ public @interface TypeDiscriminator {
   String column();
 
   /**
+   * java字段类型
    * Return the java type for conditional value.
    *
    * @return the java type
@@ -69,6 +72,7 @@ public @interface TypeDiscriminator {
   Class<?> javaType() default void.class;
 
   /**
+   * 数据库字段类型
    * Return the jdbc type for column that hold conditional value.
    *
    * @return the jdbc type
@@ -76,6 +80,7 @@ public @interface TypeDiscriminator {
   JdbcType jdbcType() default JdbcType.UNDEFINED;
 
   /**
+   * 类型处理器
    * Returns the {@link TypeHandler} type for retrieving a column value from result set.
    *
    * @return the {@link TypeHandler} type
@@ -83,6 +88,7 @@ public @interface TypeDiscriminator {
   Class<? extends TypeHandler> typeHandler() default UnknownTypeHandler.class;
 
   /**
+   * 条件映射定义
    * Returns conditional mapping definitions.
    *
    * @return conditional mapping definitions

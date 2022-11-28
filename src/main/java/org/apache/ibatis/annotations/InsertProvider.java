@@ -23,6 +23,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * 指定提供用于插入记录的 SQL 的方法的注释。
  * The annotation that specify a method that provide an SQL for inserting record(s).
  *
  * <p>
@@ -52,6 +53,7 @@ import java.lang.annotation.Target;
 public @interface InsertProvider {
 
   /**
+   * sql提供类
    * Specify a type that implements an SQL provider method.
    *
    * @return a type that implements an SQL provider method
@@ -61,6 +63,7 @@ public @interface InsertProvider {
   Class<?> value() default void.class;
 
   /**
+   * sql提供类
    * Specify a type that implements an SQL provider method.
    * <p>
    * This attribute is alias of {@link #value()}.
@@ -72,6 +75,7 @@ public @interface InsertProvider {
   Class<?> type() default void.class;
 
   /**
+   * sql提供方法名称
    * Specify a method for providing an SQL.
    *
    * <p>
@@ -94,12 +98,14 @@ public @interface InsertProvider {
   String method() default "";
 
   /**
+   * 数据库类型
    * @return A database id that correspond this provider
    * @since 3.5.5
    */
   String databaseId() default "";
 
   /**
+   * 集合
    * The container annotation for {@link InsertProvider}.
    * @author Kazuki Shimizu
    * @since 3.5.5

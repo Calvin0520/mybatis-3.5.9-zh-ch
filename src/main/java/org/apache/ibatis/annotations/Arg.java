@@ -27,6 +27,7 @@ import org.apache.ibatis.type.TypeHandler;
 import org.apache.ibatis.type.UnknownTypeHandler;
 
 /**
+ * 指定构造函数参数的映射定义的批注。
  * The annotation that specify a mapping definition for the constructor argument.
  *
  * @see ConstructorArgs
@@ -39,6 +40,7 @@ import org.apache.ibatis.type.UnknownTypeHandler;
 public @interface Arg {
 
   /**
+   * 是否id列
    * Returns whether id column or not.
    *
    * @return {@code true} if id column; {@code false} if otherwise
@@ -46,6 +48,7 @@ public @interface Arg {
   boolean id() default false;
 
   /**
+   * 数据库列名
    * Return the column name(or column label) to map to this argument.
    *
    * @return the column name(or column label)
@@ -53,6 +56,7 @@ public @interface Arg {
   String column() default "";
 
   /**
+   * java类型
    * Return the java type for this argument.
    *
    * @return the java type
@@ -60,6 +64,7 @@ public @interface Arg {
   Class<?> javaType() default void.class;
 
   /**
+   * jdbc类型
    * Return the jdbc type for column that map to this argument.
    *
    * @return the jdbc type
@@ -67,6 +72,7 @@ public @interface Arg {
   JdbcType jdbcType() default JdbcType.UNDEFINED;
 
   /**
+   * 类型处理器
    * Returns the {@link TypeHandler} type for retrieving a column value from result set.
    *
    * @return the {@link TypeHandler} type
@@ -74,6 +80,7 @@ public @interface Arg {
   Class<? extends TypeHandler> typeHandler() default UnknownTypeHandler.class;
 
   /**
+   * 对应需要关联到此参数的select statement id
    * Return the statement id for retrieving a object that map to this argument.
    *
    * @return the statement id
@@ -81,6 +88,7 @@ public @interface Arg {
   String select() default "";
 
   /**
+   * 返回用于映射到映射到此参数的对象的结果映射 ID。
    * Returns the result map id for mapping to a object that map to this argument.
    *
    * @return the result map id
@@ -88,6 +96,7 @@ public @interface Arg {
   String resultMap() default "";
 
   /**
+   * 返回用于应用此映射的参数名称。
    * Returns the parameter name for applying this mapping.
    *
    * @return the parameter name
@@ -96,6 +105,7 @@ public @interface Arg {
   String name() default "";
 
   /**
+   * 应用{@link #resultMap()}时使用的前缀
    * Returns the column prefix that use when applying {@link #resultMap()}.
    *
    * @return the column prefix

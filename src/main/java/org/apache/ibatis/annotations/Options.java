@@ -26,6 +26,7 @@ import org.apache.ibatis.mapping.ResultSetType;
 import org.apache.ibatis.mapping.StatementType;
 
 /**
+ * 指定用于足定义默认行为的选项
  * The annotation that specify options for customizing default behaviors.
  *
  * <p>
@@ -47,6 +48,7 @@ import org.apache.ibatis.mapping.StatementType;
 @Repeatable(Options.List.class)
 public @interface Options {
   /**
+   * 刷新缓存
    * The options for the {@link Options#flushCache()}.
    * The default is {@link FlushCachePolicy#DEFAULT}
    */
@@ -60,6 +62,7 @@ public @interface Options {
   }
 
   /**
+   * 使用缓存
    * Returns whether use the 2nd cache feature if assigned the cache.
    *
    * @return {@code true} if use; {@code false} if otherwise
@@ -67,6 +70,7 @@ public @interface Options {
   boolean useCache() default true;
 
   /**
+   * 刷新缓存策略
    * Returns the 2nd cache flush strategy.
    *
    * @return the 2nd cache flush strategy
@@ -74,6 +78,7 @@ public @interface Options {
   FlushCachePolicy flushCache() default FlushCachePolicy.DEFAULT;
 
   /**
+   * 结果集类型
    * Returns the result set type.
    *
    * @return the result set type
@@ -81,6 +86,7 @@ public @interface Options {
   ResultSetType resultSetType() default ResultSetType.DEFAULT;
 
   /**
+   * 语句类型
    * Return the statement type.
    *
    * @return the statement type
@@ -88,6 +94,7 @@ public @interface Options {
   StatementType statementType() default StatementType.PREPARED;
 
   /**
+   *
    * Returns the fetch size.
    *
    * @return the fetch size
@@ -95,6 +102,7 @@ public @interface Options {
   int fetchSize() default -1;
 
   /**
+   * 超时时间
    * Returns the statement timeout.
    *
    * @return the statement timeout
@@ -102,6 +110,7 @@ public @interface Options {
   int timeout() default -1;
 
   /**
+   * 使用生成key策略
    * Returns whether use the generated keys feature supported by JDBC 3.0
    *
    * @return {@code true} if use; {@code false} if otherwise

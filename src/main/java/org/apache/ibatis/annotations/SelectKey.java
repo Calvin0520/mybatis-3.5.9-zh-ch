@@ -25,6 +25,7 @@ import java.lang.annotation.Target;
 import org.apache.ibatis.mapping.StatementType;
 
 /**
+ * 查询主键注解
  * The annotation that specify an SQL for retrieving a key value.
  *
  * <p>
@@ -46,6 +47,7 @@ import org.apache.ibatis.mapping.StatementType;
 @Repeatable(SelectKey.List.class)
 public @interface SelectKey {
   /**
+   * 查询的sql
    * Returns an SQL for retrieving a key value.
    *
    * @return an SQL for retrieving a key value
@@ -53,6 +55,7 @@ public @interface SelectKey {
   String[] statement();
 
   /**
+   * 主键的属性名称
    * Returns property names that holds a key value.
    * <p>
    * If you specify multiple property, please separate using comma(',').
@@ -63,6 +66,7 @@ public @interface SelectKey {
   String keyProperty();
 
   /**
+   * 返回检索键值的列名。多列用','隔开
    * Returns column names that retrieves a key value.
    * <p>
    * If you specify multiple column, please separate using comma(',').
@@ -73,6 +77,7 @@ public @interface SelectKey {
   String keyColumn() default "";
 
   /**
+   * 是否在执行插入/更新语句之前检索键值。
    * Returns whether retrieves a key value before executing insert/update statement.
    *
    * @return {@code true} if execute before; {@code false} if otherwise
@@ -80,6 +85,7 @@ public @interface SelectKey {
   boolean before();
 
   /**
+   * 键值的类型
    * Returns the key value type.
    *
    * @return the key value type
@@ -87,6 +93,7 @@ public @interface SelectKey {
   Class<?> resultType();
 
   /**
+   * 语句类型
    * Returns the statement type to use.
    *
    * @return the statement type
@@ -94,6 +101,7 @@ public @interface SelectKey {
   StatementType statementType() default StatementType.PREPARED;
 
   /**
+   * 数据库id
    * @return A database id that correspond this select key
    * @since 3.5.5
    */

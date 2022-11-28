@@ -27,6 +27,7 @@ import org.apache.ibatis.type.TypeHandler;
 import org.apache.ibatis.type.UnknownTypeHandler;
 
 /**
+ * 结果配置
  * The annotation that specify a mapping definition for the property.
  *
  * @see Results
@@ -38,6 +39,7 @@ import org.apache.ibatis.type.UnknownTypeHandler;
 @Repeatable(Results.class)
 public @interface Result {
   /**
+   * 是否id
    * Returns whether id column or not.
    *
    * @return {@code true} if id column; {@code false} if otherwise
@@ -45,6 +47,7 @@ public @interface Result {
   boolean id() default false;
 
   /**
+   * 列名
    * Return the column name(or column label) to map to this argument.
    *
    * @return the column name(or column label)
@@ -52,6 +55,7 @@ public @interface Result {
   String column() default "";
 
   /**
+   * 列属性名
    * Returns the property name for applying this mapping.
    *
    * @return the property name
@@ -59,6 +63,7 @@ public @interface Result {
   String property() default "";
 
   /**
+   * java类型
    * Return the java type for this argument.
    *
    * @return the java type
@@ -66,6 +71,7 @@ public @interface Result {
   Class<?> javaType() default void.class;
 
   /**
+   * jdbc类型
    * Return the jdbc type for column that map to this argument.
    *
    * @return the jdbc type
@@ -73,6 +79,7 @@ public @interface Result {
   JdbcType jdbcType() default JdbcType.UNDEFINED;
 
   /**
+   * 类型处理器
    * Returns the {@link TypeHandler} type for retrieving a column value from result set.
    *
    * @return the {@link TypeHandler} type
@@ -80,6 +87,7 @@ public @interface Result {
   Class<? extends TypeHandler> typeHandler() default UnknownTypeHandler.class;
 
   /**
+   * 一对一映射
    * Returns the mapping definition for single relationship.
    *
    * @return the mapping definition for single relationship
@@ -87,6 +95,7 @@ public @interface Result {
   One one() default @One;
 
   /**
+   * 一对多映射
    * Returns the mapping definition for collection relationship.
    *
    * @return the mapping definition for collection relationship

@@ -14,6 +14,7 @@
  *    limitations under the License.
  */
 /**
+ * 注解包
  * Contains all the annotation that are used in mapper interfaces.
  */
 package org.apache.ibatis.annotations;

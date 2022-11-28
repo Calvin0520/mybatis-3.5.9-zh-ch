@@ -23,6 +23,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * 指定用于插入记录的 SQL 的注释。
  * The annotation that specify an SQL for inserting record(s).
  *
  * <p>
@@ -43,6 +44,7 @@ import java.lang.annotation.Target;
 @Repeatable(Insert.List.class)
 public @interface Insert {
   /**
+   * sql语句
    * Returns an SQL for inserting record(s).
    *
    * @return an SQL for inserting record(s)
@@ -50,12 +52,14 @@ public @interface Insert {
   String[] value();
 
   /**
+   * 数据库id
    * @return A database id that correspond this statement
    * @since 3.5.5
    */
   String databaseId() default "";
 
   /**
+   * 集合
    * The container annotation for {@link Insert}.
    * @author Kazuki Shimizu
    * @since 3.5.5

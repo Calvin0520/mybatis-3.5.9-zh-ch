@@ -23,6 +23,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * 指定用于删除记录的 SQL 的注释。
  * The annotation that specify an SQL for deleting record(s).
  *
  * <p>
@@ -42,7 +43,9 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Repeatable(Delete.List.class)
 public @interface Delete {
+
   /**
+   * 用于删除记录的 SQL
    * Returns an SQL for deleting record(s).
    *
    * @return an SQL for deleting record(s)
@@ -50,12 +53,14 @@ public @interface Delete {
   String[] value();
 
   /**
+   * 与此语句对应的数据库 ID
    * @return A database id that correspond this statement
    * @since 3.5.5
    */
   String databaseId() default "";
 
   /**
+   * 删除容器的注释
    * The container annotation for {@link Delete}.
    * @author Kazuki Shimizu
    * @since 3.5.5

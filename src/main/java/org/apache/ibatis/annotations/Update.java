@@ -23,6 +23,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * 指定用于更新记录的 SQL 的注释。
  * The annotation that specify an SQL for updating record(s).
  *
  * <p>
@@ -43,6 +44,7 @@ import java.lang.annotation.Target;
 @Repeatable(Update.List.class)
 public @interface Update {
   /**
+   * sql语句
    * Returns an SQL for updating record(s).
    *
    * @return an SQL for updating record(s)
@@ -50,12 +52,14 @@ public @interface Update {
   String[] value();
 
   /**
+   * 数据库id
    * @return A database id that correspond this statement
    * @since 3.5.5
    */
   String databaseId() default "";
 
   /**
+   * 集合
    * The container annotation for {@link Update}.
    * @author Kazuki Shimizu
    * @since 3.5.5
