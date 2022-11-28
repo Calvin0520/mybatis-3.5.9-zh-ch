@@ -16,8 +16,9 @@
 package org.apache.ibatis.jdbc;
 
 /**
+ *  已经废弃，参考新时间 {@link SQL}
  * @deprecated Use the {@link SQL} Class
- *
+ * @see SQL
  * @author Jeff Butler
  */
 public class SqlBuilder {

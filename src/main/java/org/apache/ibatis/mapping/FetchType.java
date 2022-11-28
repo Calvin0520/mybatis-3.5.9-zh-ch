@@ -16,6 +16,7 @@
 package org.apache.ibatis.mapping;
 
 /**
+ * 加载策略
  * @author Eduardo Macarron
  */
 public enum FetchType {
