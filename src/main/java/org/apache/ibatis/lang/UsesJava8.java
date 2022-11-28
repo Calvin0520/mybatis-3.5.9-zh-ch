@@ -22,6 +22,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * 指示元素使用Java8 API。
  * <p>
  * Indicates that the element uses Java 8 API.
  * </p>

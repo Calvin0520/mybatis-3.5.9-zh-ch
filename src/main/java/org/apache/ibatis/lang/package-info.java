@@ -14,6 +14,7 @@
  *    limitations under the License.
  */
 /**
+ * Java语言包
  * Java Language Package.
  */
 package org.apache.ibatis.lang;
