@@ -49,18 +49,37 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.Configuration;
 
 /**
+ * 类型处理器注册表
  * @author Clinton Begin
  * @author Kazuki Shimizu
  */
 public final class TypeHandlerRegistry {
 
+  /**
+   * jdbc类型与对应类型处理器的映射
+   */
   private final Map<JdbcType, TypeHandler<?>> jdbcTypeHandlerMap = new EnumMap<>(JdbcType.class);
+  /**
+   * java类型与Map<JdbcType, TypeHandler<?>>的映射
+   */
   private final Map<Type, Map<JdbcType, TypeHandler<?>>> typeHandlerMap = new ConcurrentHashMap<>();
+  /**
+   * 未知的类型处理器
+   */
   private final TypeHandler<Object> unknownTypeHandler;
+  /**
+   * 所有的类型处理器
+   */
   private final Map<Class<?>, TypeHandler<?>> allTypeHandlersMap = new HashMap<>();
 
+  /**
+   * 空的Map<JdbcType, TypeHandler<?>>，java类型没有迪欧模糊的Map<JdbcType, TypeHandler<?>>的映射
+   */
   private static final Map<JdbcType, TypeHandler<?>> NULL_TYPE_HANDLER_MAP = Collections.emptyMap();
 
+  /**
+   * 默认的类型处理器
+   */
   private Class<? extends TypeHandler> defaultEnumTypeHandler = EnumTypeHandler.class;
 
   /**
@@ -229,20 +248,33 @@ public final class TypeHandlerRegistry {
     return getTypeHandler(javaTypeReference.getRawType(), jdbcType);
   }
 
+  /**
+   * 找到一个类的类型处理器
+   * @param type Java类型
+   * @param jdbcType JDBC类型
+   * @return 类型处理器
+   * @param <T> 类型处理器的目标类型
+   */
   @SuppressWarnings("unchecked")
   private <T> TypeHandler<T> getTypeHandler(Type type, JdbcType jdbcType) {
+    // ParamMap不是单一类型不处理
     if (ParamMap.class.equals(type)) {
       return null;
     }
+
+    // 获取Java类型对应的Map<JdbcType, TypeHandler<?>>
     Map<JdbcType, TypeHandler<?>> jdbcHandlerMap = getJdbcHandlerMap(type);
     TypeHandler<?> handler = null;
     if (jdbcHandlerMap != null) {
+      // 根据JDBC类型查找对应的类型处理器
       handler = jdbcHandlerMap.get(jdbcType);
       if (handler == null) {
+        // 使用null作为键查询一次
         handler = jdbcHandlerMap.get(null);
       }
       if (handler == null) {
         // #591
+        // 如果只有一个类型处理器就弹出它
         handler = pickSoleHandler(jdbcHandlerMap);
       }
     }
@@ -250,6 +282,11 @@ public final class TypeHandlerRegistry {
     return (TypeHandler<T>) handler;
   }
 
+  /**
+   * 获取Java类型对应的Map<JdbcType, TypeHandler<?>>
+   * @param type Java类型
+   * @return
+   */
   private Map<JdbcType, TypeHandler<?>> getJdbcHandlerMap(Type type) {
     Map<JdbcType, TypeHandler<?>> jdbcHandlerMap = typeHandlerMap.get(type);
     if (jdbcHandlerMap != null) {

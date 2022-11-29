@@ -16,6 +16,7 @@
 package org.apache.ibatis.type;
 
 /**
+ * 数组转化工具类
  * @author Clinton Begin
  */
 class ByteArrayUtils {
@@ -24,6 +25,11 @@ class ByteArrayUtils {
     // Prevent Instantiation
   }
 
+  /**
+   * 包装类型转换为原生类型
+   * @param objects
+   * @return
+   */
   static byte[] convertToPrimitiveArray(Byte[] objects) {
     final byte[] bytes = new byte[objects.length];
     for (int i = 0; i < objects.length; i++) {
@@ -32,6 +38,12 @@ class ByteArrayUtils {
     return bytes;
   }
 
+
+  /**
+   * 原生类型转换为包装类型
+   * @param bytes
+   * @return
+   */
   static Byte[] convertToObjectArray(byte[] bytes) {
     final Byte[] objects = new Byte[bytes.length];
     for (int i = 0; i < bytes.length; i++) {

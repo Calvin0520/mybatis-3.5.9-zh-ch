@@ -19,6 +19,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 /**
+ * 类型参考器
  * References a generic type.
  *
  * @param <T> the referenced type
@@ -33,21 +34,32 @@ public abstract class TypeReference<T> {
     rawType = getSuperclassTypeParameter(getClass());
   }
 
+  /**
+   * 解析出当前TypeHandler实现类能够处理的目标类型
+   * @param clazz TypeHandler实现类
+   * @return 实现类能够处理的目标类型
+   */
   Type getSuperclassTypeParameter(Class<?> clazz) {
+    // 获取class类带有范型的直接父类
     Type genericSuperclass = clazz.getGenericSuperclass();
     if (genericSuperclass instanceof Class) {
+      // genericSuperclass不是TypeReference类本身
       // try to climb up the hierarchy until meet something useful
       if (TypeReference.class != genericSuperclass) {
+        // 说明还有上层 继续递归
         return getSuperclassTypeParameter(clazz.getSuperclass());
       }
-
+      // 继承了TypeReference类，但是却没有使用范型。
       throw new TypeException("'" + getClass() + "' extends TypeReference but misses the type parameter. "
         + "Remove the extension or add a type parameter to it.");
     }
 
+    // 获取范型的第一个参数
     Type rawType = ((ParameterizedType) genericSuperclass).getActualTypeArguments()[0];
     // TODO remove this when Reflector is fixed to return Types
     if (rawType instanceof ParameterizedType) {
+      // 如果是参数化类型
+      // 获取参数化类型的实际类型
       rawType = ((ParameterizedType) rawType).getRawType();
     }
 

@@ -14,6 +14,7 @@
  *    limitations under the License.
  */
 /**
+ * 类型处理器包
  * Type handlers.
  */
 package org.apache.ibatis.type;

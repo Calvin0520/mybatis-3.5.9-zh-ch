@@ -22,6 +22,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * 给{@link TypeHandler}标注处理的JdbcType
  * The annotation that specify jdbc types to map {@link TypeHandler}.
  *
  * <p>
@@ -39,6 +40,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface MappedJdbcTypes {
   /**
+   * JdbcType集合
    * Returns jdbc types to map {@link TypeHandler}.
    *
    * @return jdbc types
@@ -46,6 +48,7 @@ public @interface MappedJdbcTypes {
   JdbcType[] value();
 
   /**
+   * 是否映射到jdbc空类型
    * Returns whether map to jdbc null type.
    *
    * @return {@code true} if map, {@code false} if otherwise

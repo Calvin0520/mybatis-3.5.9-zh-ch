@@ -22,6 +22,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * 给{@link TypeHandler}标注能处理的Java类
  * The annotation that specify java types to map {@link TypeHandler}.
  *
  * <p>
@@ -39,6 +40,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface MappedTypes {
   /**
+   * Java类
    * Returns java types to map {@link TypeHandler}.
    *
    * @return java types

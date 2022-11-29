@@ -21,20 +21,30 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
+ * 类型处理器接口
  * @author Clinton Begin
  */
 public interface TypeHandler<T> {
 
+  /**
+   * 向PreparedStatement对象指定位置插入一个值
+   * @param ps 对象
+   * @param i 下标
+   * @param parameter 参数值
+   * @param jdbcType JDBC类型
+   * @throws SQLException
+   */
   void setParameter(PreparedStatement ps, int i, T parameter, JdbcType jdbcType) throws SQLException;
 
   /**
+   * 从结果集中读出一个结果
    * Gets the result.
    *
-   * @param rs
+   * @param rs 结果集
    *          the rs
-   * @param columnName
+   * @param columnName 要读取结果的列明
    *          Column name, when configuration <code>useColumnLabel</code> is <code>false</code>
-   * @return the result
+   * @return the result 结果值
    * @throws SQLException
    *           the SQL exception
    */
